@@ -1,14 +1,14 @@
-# Basis-Image: OpenJDK 17 slim
-FROM openjdk:17-jdk-slim
+# Basis-Image: OpenJDK 17 (oder 21, falls dein Projekt 21 nutzt)
+FROM eclipse-temurin:21-jdk
 
 # Arbeitsverzeichnis im Container
-WORKDIR /app
+ WORKDIR /app
 
-# Kopiere das gebaute Jar in den Container
-COPY target/demo_Apod-0.0.1-SNAPSHOT.jar app.jar
+ # JAR-Datei kopieren (nach Maven-Build)
+ COPY target/demo_Apod-0.0.1-SNAPSHOT.jar app.jar
 
-# Exponiere Port 8080 (Standard Spring Boot)
-EXPOSE 8080
+ # Port, den Spring Boot verwendet
+ EXPOSE 8080
 
-# Starte die Spring Boot App
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ # Start-Befehl
+ ENTRYPOINT ["java", "-jar", "app.jar"]
