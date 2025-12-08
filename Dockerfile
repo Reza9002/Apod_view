@@ -1,14 +1,25 @@
-# Basis-Image: OpenJDK 17 (oder 21, falls dein Projekt 21 nutzt)
-FROM eclipse-temurin:21-jdk
+# Stage 1: Build-Umgebung
+FROM eclipse-temurin:17-jdk-focal AS build
+WORKDIR /app
+COPY . .
 
-# Arbeitsverzeichnis im Container
- WORKDIR /app
+# Ausführung des Maven Builds
+# Stellen Sie sicher, dass 'mvnw' (Maven Wrapper) vorhanden ist, oder ersetzen Sie es durch 'mvn'
+RUN ./mvnw clean package -DskipTests
 
- # JAR-Datei kopieren (nach Maven-Build)
- COPY target/demo_Apod-0.0.1-SNAPSHOT.jar app.jar
+# Stage 2: Laufzeit-Umgebung
+FROM eclipse-temurin:17-jre-focal
+WORKDIR /app
 
- # Port, den Spring Boot verwendet
- EXPOSE 8080
+# ----------------------------------------------------------------------
+# !!! HIER IST DIE WICHTIGE ANPASSUNG FÜR IHR PROJEKT !!!
+# Nehmen wir an, Ihre JAR-Datei heißt: liebrica-21-0.0.1-SNAPSHOT.jar
+# BITTE PRÜFEN SIE DEN EXAKTEN NAMEN IM 'target' ORNDER.
+# ----------------------------------------------------------------------
+COPY --from=build /app/target/liebrica-21-0.0.1-SNAPSHOT.jar app.jar
 
- # Start-Befehl
- ENTRYPOINT ["java", "-jar", "app.jar"]
+# Port-Definition (oft 8080 für Spring Boot)
+EXPOSE 8080
+
+# Starte die Anwendung
+ENTRYPOINT ["java", "-jar", "app.jar"]
