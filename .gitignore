@@ -1,0 +1,26 @@
+# Ignoriere Maven 'target' Build-Verzeichnisse
+target/
+
+
+
+# Ignoriere sensitive Konfigurationsdateien
+application.properties
+application-*.properties
+application.yml
+application-*.yml
+
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# Maven
+target/
+
+# Docker
+*.jar
+
+# OS
+.DS_Store
+Thumbs.db
