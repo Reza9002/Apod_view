@@ -30,7 +30,7 @@ public class MainView extends VerticalLayout {
 
 
         DatePicker datePicker = new DatePicker("Wählen Sie ein Datum: ");
-        currentApod = RestClient.createApod(LocalDate.now());   // verhindert eine NullPointerException
+        //currentApod = RestClient.createApod(LocalDate.now());   // verhindert eine NullPointerException
 
 
         Image image = new Image(currentApod.getUrl() , "Bildbeschreibung");
